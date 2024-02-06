@@ -1,0 +1,83 @@
+ body {
+    min-height: 100vh;
+    background: #1B262C;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    box-sizing: border-box;
+  }
+
+  h1 {
+    color: white;
+    font-family: "Titan One", cursive;
+    margin-bottom: 20px;
+  }
+  
+  .user {
+    color: white;
+    font-size: 24px;
+    font-family: "Titan One", cursive;
+    margin: 1em;
+  }
+
+  .redText {
+    color: red;
+  }
+
+  #jokeGeneratorButton {
+    background-color: #0B60B0;
+    color: #F0EDCF;
+  }
+
+  #addToFavourite {
+    background-color: #40A2D8;
+    color: #F0EDCF;  
+    margin: 2em;  
+  }
+
+  .containerJokeType {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .jokeContainerLine {
+    display: flex;
+    justify-content: flex-end;
+    align-content: center;
+    align-items: center;
+    flex-direction: column-reverse;
+    height: 150px;
+  }
+
+  .favouriteDisplay {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    width: 100%;
+    margin: 3em;
+  }
+  
+  #containerForFavourite {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin: 3rem;
+  }
+
+  .cardBodyFlex {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .list-group-item {
+    padding-left: 0;
+  }
+
+
+
+  
+

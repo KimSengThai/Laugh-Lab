@@ -50,10 +50,11 @@ function initialize() {
         }
     }
 
-    updateanyCategories()
+
     anyCategories.addEventListener("change", updateanyCategories);
     customCategories.addEventListener("change", updateanyCategories);
 
+    updateanyCategories()
     // function for if user didnt select any categories
 
     function noCategoriesSelected() {
@@ -61,15 +62,15 @@ function initialize() {
         let noSelected = !customCategoriesPro.checked && !customCategoriesMisc.checked && !customCategoriesDark.checked && !customCategoriesPun.checked && !customCategoriesSpooky.checked
 
         if (noSelected) {
-            btn.disabled = true;
             setup.textContent = "Yo";
             setup.classList.add("redText");
             delivery.textContent = "Pick a categories please!";
             delivery.classList.add("redText");
+            jokeGeneratorButton.disabled = true;
         } else {
             setup.classList.remove("redText");
             delivery.classList.remove("redText");
-            btn.disabled = false;
+            jokeGeneratorButton.disabled = false;
         }
     }
 
@@ -97,17 +98,17 @@ function initialize() {
             if (type === "twopart" && data.error === false) {
                     setup.textContent = data.setup;
                     delivery.textContent = data.delivery; 
-                    let twoPartJokeIn1 = data.setup + " " + data.delivery
-                    arrayOfAllData.push(twoPartJokeIn1)  
+                    arrayOfAllData.push(data)  
+                    addToFavourite.disabled = false;
                 } else if (type === "single" && data.error === false) {
                     setup.textContent = "";
                     delivery.textContent = data.joke;
-                    arrayOfAllData.push(data.joke)
+                    arrayOfAllData.push(data)
+                    addToFavourite.disabled = false;
                 } else if (data.error === true) {
                     setup.textContent = "error code: " + data.code;
                     delivery.textContent = data.message;                 
                 }
-                console.log(arrayOfAllData)
         } catch (error) {
             console.log("Sorry, there's been an issue loading the jokes for you!", error);
             delivery.textContent = "Sorry, there's been an issue loading the jokes for you!";
@@ -157,7 +158,7 @@ function initialize() {
     function checkForCategories() {
         if (anyCategories.checked) {
             return "Any";
-        } else {
+        } else if (customCategories.checked) {
             let selectedCategories = [];
     
             if (customCategoriesPro.checked) selectedCategories.push("Programming");
@@ -180,22 +181,51 @@ function initialize() {
         }
     }
 
+    // function to disable the add this joke to favourite
+
+
     // Add list to favourite
     let addToFavourite = document.querySelector("#addToFavourite")
-    let favouriteHistory = document.getElementById("favouriteHistory");       
+    let containerForFavourite = document.querySelector("#containerForFavourite")
+
 
     addToFavourite.addEventListener("click", () => {
-        let listItem = document.createElement("li");
+        let TwoPart = `<div class="card" style="width: 18rem;"><div class="cardBodyFlex card-body"><h5 class="card-title">Joke</h5><ul class="list-group list-group-flush"><li class="list-group-item">Joke ID: ${arrayOfAllData[arrayOfAllData.length-1].id}</li><li class="list-group-item">Joke Type: ${arrayOfAllData[arrayOfAllData.length-1].type}</li><li class="list-group-item">Category: ${arrayOfAllData[arrayOfAllData.length-1].category}</li><span></ul>
+        <p class="card-text"><br/>${arrayOfAllData[arrayOfAllData.length-1].setup}<br/><br/>${arrayOfAllData[arrayOfAllData.length-1].delivery}</p><a class="btn btn-danger">Delete</a></div></div>`
+        let OnePart = `<div class="card" style="width: 18rem;"><div class="cardBodyFlex card-body"><h5 class="card-title">Joke</h5><ul class="list-group list-group-flush"><li class="list-group-item">Joke ID: ${arrayOfAllData[arrayOfAllData.length-1].id}</li><li class="list-group-item">Joke Type: ${arrayOfAllData[arrayOfAllData.length-1].type}</li><li class="list-group-item">Category: ${arrayOfAllData[arrayOfAllData.length-1].category}</li><span></ul>
+        <p class="card-text"><br/>${arrayOfAllData[arrayOfAllData.length-1].joke}</p><a class="btn btn-danger">Delete</a></div></div>`
+        let cardBox
 
-        listItem.textContent = `Joke: ${arrayOfAllData [arrayOfAllData.length - 1]}`;
+        if (arrayOfAllData[arrayOfAllData.length-1].type === "twopart") {
+            cardBox = TwoPart;
+        } else if (arrayOfAllData[arrayOfAllData.length-1].type === "single") {
+            cardBox = OnePart; 
+        }
 
-        // event listener to remove joke
-        listItem.addEventListener("click", () => {
-            favouriteHistory.removeChild(listItem);
+        containerForFavourite.innerHTML += cardBox;
+
+        // event listener to remove favourite
+        let deleteButtons = document.querySelectorAll(".btn-danger");
+
+        deleteButtons.forEach(eventButton => {
+            eventButton.addEventListener('click', () => {
+                eventButton.closest('.card').remove();
+                updateCardTitles()
+            });
         });
-        
-        // add the joke to favourites
-        favouriteHistory.appendChild(listItem);
+
+        updateCardTitles()
+
+        addToFavourite.disabled = true;
     })
-    
+
+    function updateCardTitles() {
+        let cardTitle = document.querySelectorAll(".card-title")
+        let i = 1
+        
+        cardTitle.forEach(eventHeading => {
+            eventHeading.textContent = "Joke Number " + i++
+        })
+    }
+
 }
