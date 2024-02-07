@@ -90,25 +90,27 @@ function initialize() {
     let delivery = document.querySelector(".delivery");
     const arrayOfAllData = []
 
+    // Improve code to be more readable
+    // Make history more savable, adding to local storage
     async function getRandomJoke(type, blackListTag, categoryList, inputSearchNow) {
         try {
-            const response = await fetch(url + `${categoryList}?type=${type}${blackListTag}${inputSearchNow}`);
+            const response = await fetch(url + `${categoryList}${type}${blackListTag}${inputSearchNow}`);
             const data = await response.json();
+            console.log(response)
             // Check for twopart and onepart joke then check for error false or true
-            if (type === "twopart" && data.error === false) {
-                    setup.textContent = data.setup;
-                    delivery.textContent = data.delivery; 
-                    arrayOfAllData.push(data)  
-                    addToFavourite.disabled = false;
-                } else if (type === "single" && data.error === false) {
+            setup.textContent = "error code: " + data.code;
+            delivery.textContent = data.message;    
+
+            if (data.error === false) {
+                arrayOfAllData.push(data)
+                setup.textContent = data.setup;
+                delivery.textContent = data.delivery; 
+                addToFavourite.disabled = false;
+                if (type === "?type=single") {
                     setup.textContent = "";
                     delivery.textContent = data.joke;
-                    arrayOfAllData.push(data)
-                    addToFavourite.disabled = false;
-                } else if (data.error === true) {
-                    setup.textContent = "error code: " + data.code;
-                    delivery.textContent = data.message;                 
                 }
+            } 
         } catch (error) {
             console.log("Sorry, there's been an issue loading the jokes for you!", error);
             delivery.textContent = "Sorry, there's been an issue loading the jokes for you!";
@@ -121,19 +123,21 @@ function initialize() {
         let blackListTag = checkForRatedR();
         let categoryList = checkForCategories();
         let inputSearchNow = searchInput();
+        let type = "?type=single"
 
-        if (jokeTypes1.checked && !jokeTypes2.checked) {
-            getRandomJoke("single", blackListTag, categoryList, inputSearchNow);
-        } else if (!jokeTypes1.checked && jokeTypes2.checked) {
-            getRandomJoke("twopart", blackListTag, categoryList, inputSearchNow);
+        if (!jokeTypes1.checked && jokeTypes2.checked) {
+            type ="?type=twopart";
         } else if ((jokeTypes1.checked && jokeTypes2.checked) || jokeTypesBoth.checked) {
-            let number = Math.floor(Math.random() * 2);;
-            if (number === 0) {
-                getRandomJoke("single", blackListTag, categoryList, inputSearchNow);
-            } else if (number === 1) {
-                getRandomJoke("twopart", blackListTag, categoryList, inputSearchNow);
+            let randomNumber = Math.floor(Math.random() * 2)
+            if (randomNumber === 0) {
+                type = "?type=twopart";
+            } else {
+                type = "?type=single";
             }
         }
+
+        getRandomJoke(type, blackListTag, categoryList, inputSearchNow);
+        
     }
 
     // Submit button to call a function jokeTypes
@@ -188,33 +192,24 @@ function initialize() {
     let addToFavourite = document.querySelector("#addToFavourite")
     let containerForFavourite = document.querySelector("#containerForFavourite")
 
-
     addToFavourite.addEventListener("click", () => {
         let TwoPart = `<div class="card" style="width: 18rem;"><div class="cardBodyFlex card-body"><h5 class="card-title">Joke</h5><ul class="list-group list-group-flush"><li class="list-group-item">Joke ID: ${arrayOfAllData[arrayOfAllData.length-1].id}</li><li class="list-group-item">Joke Type: ${arrayOfAllData[arrayOfAllData.length-1].type}</li><li class="list-group-item">Category: ${arrayOfAllData[arrayOfAllData.length-1].category}</li><span></ul>
         <p class="card-text"><br/>${arrayOfAllData[arrayOfAllData.length-1].setup}<br/><br/>${arrayOfAllData[arrayOfAllData.length-1].delivery}</p><a class="btn btn-danger">Delete</a></div></div>`
         let OnePart = `<div class="card" style="width: 18rem;"><div class="cardBodyFlex card-body"><h5 class="card-title">Joke</h5><ul class="list-group list-group-flush"><li class="list-group-item">Joke ID: ${arrayOfAllData[arrayOfAllData.length-1].id}</li><li class="list-group-item">Joke Type: ${arrayOfAllData[arrayOfAllData.length-1].type}</li><li class="list-group-item">Category: ${arrayOfAllData[arrayOfAllData.length-1].category}</li><span></ul>
         <p class="card-text"><br/>${arrayOfAllData[arrayOfAllData.length-1].joke}</p><a class="btn btn-danger">Delete</a></div></div>`
-        let cardBox
+        let cardBox = OnePart
 
         if (arrayOfAllData[arrayOfAllData.length-1].type === "twopart") {
             cardBox = TwoPart;
-        } else if (arrayOfAllData[arrayOfAllData.length-1].type === "single") {
-            cardBox = OnePart; 
         }
 
         containerForFavourite.innerHTML += cardBox;
 
-        // event listener to remove favourite
-        let deleteButtons = document.querySelectorAll(".btn-danger");
+        deleteButtonForHero()
 
-        deleteButtons.forEach(eventButton => {
-            eventButton.addEventListener('click', () => {
-                eventButton.closest('.card').remove();
-                updateCardTitles()
-            });
-        });
+        updateCardTitles();
 
-        updateCardTitles()
+        saveData();
 
         addToFavourite.disabled = true;
     })
@@ -224,8 +219,34 @@ function initialize() {
         let i = 1
         
         cardTitle.forEach(eventHeading => {
-            eventHeading.textContent = "Joke Number " + i++
+            eventHeading.textContent = "Joke " + i++
         })
     }
 
+    // storing data on local storage
+    // save to browser
+    function saveData() {
+        localStorage.setItem("data", containerForFavourite.innerHTML);
+    }
+    // display to browser after a restart and call function to be able to delte
+    function showList() {
+        containerForFavourite.innerHTML = localStorage.getItem("data");    
+        deleteButtonForHero()
+    }
+
+    //Display the list even when the user remove it 
+    showList();
+
+    // function to delete
+    function deleteButtonForHero() {
+    let deleteButtons = document.querySelectorAll(".btn-danger");
+        
+    deleteButtons.forEach(eventButton => {
+        eventButton.addEventListener('click', () => {
+            eventButton.closest('.card').remove();
+            updateCardTitles();
+            saveData();
+        });
+    });
+    }
 }
