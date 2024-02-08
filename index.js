@@ -178,7 +178,7 @@ function initialize() {
     let containerForFavourite = document.querySelector("#containerForFavourite")
 
     addToFavourite.addEventListener("click", () => {
-        let TwoPart = `<div class="card" style="width: 18rem;">
+        let TwoPart = `<div class="card" style="width: 15rem;">
                         <div class="cardBodyFlex card-body">
                             <div>
                                 <h5 class="card-title">Joke</h5>
@@ -193,7 +193,7 @@ function initialize() {
                         </div>
                       </div>`
 
-        let OnePart = `<div class="card" style="width: 18rem;">
+        let OnePart = `<div class="card" style="width: 15rem;">
                         <div class="cardBodyFlex card-body">
                             <div>
                                 <h5 class="card-title">Joke</h5>
