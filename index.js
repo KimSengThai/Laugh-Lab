@@ -8,17 +8,17 @@ function initialize() {
     let jokeTypes2 = document.querySelector(".jokeTypes2");
     let jokeTypesBoth = document.querySelector(".jokeTypesBoth");
 
-    function updateBothJokes() {
-        if (!jokeTypes1.checked && !jokeTypes2.checked) {
-            jokeTypesBoth.checked = true;
-        } else {
-            jokeTypesBoth.checked = false;
-        }
-    }
+    // function updateBothJokes() {
+    //     if (!jokeTypes1.checked && !jokeTypes2.checked) {
+    //         jokeTypesBoth.checked = true;
+    //     } else {
+    //         jokeTypesBoth.checked = false;
+    //     }
+    // }
 
-    updateBothJokes();
-    jokeTypes1.addEventListener("change", updateBothJokes);
-    jokeTypes2.addEventListener("change", updateBothJokes);
+    // updateBothJokes();
+    // jokeTypes1.addEventListener("change", updateBothJokes);
+    // jokeTypes2.addEventListener("change", updateBothJokes);
 
     // Categories checking
     let anyCategories = document.querySelector(".anyCategories");
@@ -127,7 +127,7 @@ function initialize() {
 
         if (!jokeTypes1.checked && jokeTypes2.checked) {
             type ="?type=twopart";
-        } else if ((jokeTypes1.checked && jokeTypes2.checked) || jokeTypesBoth.checked) {
+        } else if (jokeTypesBoth.checked) {
             let randomNumber = Math.floor(Math.random() * 2)
             if (randomNumber === 0) {
                 type = "?type=twopart";
