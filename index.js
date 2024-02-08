@@ -8,18 +8,6 @@ function initialize() {
     let jokeTypes2 = document.querySelector(".jokeTypes2");
     let jokeTypesBoth = document.querySelector(".jokeTypesBoth");
 
-    // function updateBothJokes() {
-    //     if (!jokeTypes1.checked && !jokeTypes2.checked) {
-    //         jokeTypesBoth.checked = true;
-    //     } else {
-    //         jokeTypesBoth.checked = false;
-    //     }
-    // }
-
-    // updateBothJokes();
-    // jokeTypes1.addEventListener("change", updateBothJokes);
-    // jokeTypes2.addEventListener("change", updateBothJokes);
-
     // Categories checking
     let anyCategories = document.querySelector(".anyCategories");
     let customCategories = document.querySelector(".customCategories");
@@ -185,18 +173,41 @@ function initialize() {
         }
     }
 
-    // function to disable the add this joke to favourite
-
-
     // Add list to favourite
     let addToFavourite = document.querySelector("#addToFavourite")
     let containerForFavourite = document.querySelector("#containerForFavourite")
 
     addToFavourite.addEventListener("click", () => {
-        let TwoPart = `<div class="card" style="width: 18rem;"><div class="cardBodyFlex card-body"><h5 class="card-title">Joke</h5><ul class="list-group list-group-flush"><li class="list-group-item">Joke ID: ${arrayOfAllData[arrayOfAllData.length-1].id}</li><li class="list-group-item">Joke Type: ${arrayOfAllData[arrayOfAllData.length-1].type}</li><li class="list-group-item">Category: ${arrayOfAllData[arrayOfAllData.length-1].category}</li><span></ul>
-        <p class="card-text"><br/>${arrayOfAllData[arrayOfAllData.length-1].setup}<br/><br/>${arrayOfAllData[arrayOfAllData.length-1].delivery}</p><a class="btn btn-danger">Delete</a></div></div>`
-        let OnePart = `<div class="card" style="width: 18rem;"><div class="cardBodyFlex card-body"><h5 class="card-title">Joke</h5><ul class="list-group list-group-flush"><li class="list-group-item">Joke ID: ${arrayOfAllData[arrayOfAllData.length-1].id}</li><li class="list-group-item">Joke Type: ${arrayOfAllData[arrayOfAllData.length-1].type}</li><li class="list-group-item">Category: ${arrayOfAllData[arrayOfAllData.length-1].category}</li><span></ul>
-        <p class="card-text"><br/>${arrayOfAllData[arrayOfAllData.length-1].joke}</p><a class="btn btn-danger">Delete</a></div></div>`
+        let TwoPart = `<div class="card" style="width: 18rem;">
+                        <div class="cardBodyFlex card-body">
+                            <div>
+                                <h5 class="card-title">Joke</h5>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">Joke ID: ${arrayOfAllData[arrayOfAllData.length-1].id}</li>
+                                    <li class="list-group-item">Joke Type: ${arrayOfAllData[arrayOfAllData.length-1].type}</li>
+                                    <li class="list-group-item">Category: ${arrayOfAllData[arrayOfAllData.length-1].category}</li><span>
+                                </ul>
+                                <p class="card-text"><br/>${arrayOfAllData[arrayOfAllData.length-1].setup}<br/><br/>${arrayOfAllData[arrayOfAllData.length-1].delivery}</p>
+                            </div>
+                            <a class="btn btn-danger">Delete</a>
+                        </div>
+                      </div>`
+
+        let OnePart = `<div class="card" style="width: 18rem;">
+                        <div class="cardBodyFlex card-body">
+                            <div>
+                                <h5 class="card-title">Joke</h5>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">Joke ID: ${arrayOfAllData[arrayOfAllData.length-1].id}</li>
+                                    <li class="list-group-item">Joke Type: ${arrayOfAllData[arrayOfAllData.length-1].type}</li>
+                                    <li class="list-group-item">Category: ${arrayOfAllData[arrayOfAllData.length-1].category}</li><span>
+                                </ul>
+                                <p class="card-text"><br/>${arrayOfAllData[arrayOfAllData.length-1].joke}</p>
+                            </div>
+                            <a class="btn btn-danger">Delete</a>
+                        </div>
+                       </div>`
+
         let cardBox = OnePart
 
         if (arrayOfAllData[arrayOfAllData.length-1].type === "twopart") {
@@ -214,6 +225,7 @@ function initialize() {
         addToFavourite.disabled = true;
     })
 
+    // adding joke number
     function updateCardTitles() {
         let cardTitle = document.querySelectorAll(".card-title")
         let i = 1
