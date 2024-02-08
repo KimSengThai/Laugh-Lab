@@ -187,7 +187,7 @@ function initialize() {
                                     <li class="list-group-item">Joke Type: ${arrayOfAllData[arrayOfAllData.length-1].type}</li>
                                     <li class="list-group-item">Category: ${arrayOfAllData[arrayOfAllData.length-1].category}</li><span>
                                 </ul>
-                                <p class="card-text"><br/>${arrayOfAllData[arrayOfAllData.length-1].setup}<br/><br/>${arrayOfAllData[arrayOfAllData.length-1].delivery}</p>
+                                <p class="card-text"><br/>${arrayOfAllData[arrayOfAllData.length-1].setup}<br><br>${arrayOfAllData[arrayOfAllData.length-1].delivery}</p><br>
                             </div>
                             <a class="btn btn-danger">Delete</a>
                         </div>
@@ -202,7 +202,7 @@ function initialize() {
                                     <li class="list-group-item">Joke Type: ${arrayOfAllData[arrayOfAllData.length-1].type}</li>
                                     <li class="list-group-item">Category: ${arrayOfAllData[arrayOfAllData.length-1].category}</li><span>
                                 </ul>
-                                <p class="card-text"><br/>${arrayOfAllData[arrayOfAllData.length-1].joke}</p>
+                                <p class="card-text"><br/>${arrayOfAllData[arrayOfAllData.length-1].joke}</p><br>
                             </div>
                             <a class="btn btn-danger">Delete</a>
                         </div>
