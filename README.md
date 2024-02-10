@@ -16,4 +16,4 @@ Fork and clone this repo, then run the following commands:
 
 OR 
 
-visit https://lagiordano.github.io/Critter-Catcher/ ](https://jokefrontendapi.netlify.app/)https://jokefrontendapi.netlify.app/
+visit https://jokefrontendapi.netlify.app/)https://jokefrontendapi.netlify.app/
